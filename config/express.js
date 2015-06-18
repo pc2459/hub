@@ -11,14 +11,11 @@ var fs = require('fs'),
 	bodyParser = require('body-parser'),
 	session = require('express-session'),
 	compress = require('compression'),
-	methodOverride = require('method-override'),
-	cookieParser = require('cookie-parser'),
 	helmet = require('helmet'),
 	passport = require('passport'),
 	mongoStore = require('connect-mongo')({
 		session: session
 	}),
-	flash = require('connect-flash'),
 	config = require('./config'),
 	consolidate = require('consolidate'),
 	path = require('path');
@@ -74,15 +71,10 @@ module.exports = function(db) {
 		app.locals.cache = 'memory';
 	}
 
-	// Request body parsing middleware should be above methodOverride
 	app.use(bodyParser.urlencoded({
 		extended: true
 	}));
 	app.use(bodyParser.json());
-	app.use(methodOverride());
-
-	// CookieParser should be above session
-	app.use(cookieParser());
 
 	// Express MongoDB session storage
 	app.use(session({
@@ -98,9 +90,6 @@ module.exports = function(db) {
 	// use passport session
 	app.use(passport.initialize());
 	app.use(passport.session());
-
-	// connect flash for flash messages
-	app.use(flash());
 
 	// Use helmet to secure Express headers
 	app.use(helmet.xframe());
