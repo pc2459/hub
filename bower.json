@@ -1,7 +1,7 @@
 {
 	"name": "marketplace-hub",
 	"version": "0.0.1",
-	"description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js",
+	"description": "Hub for F2 apps",
 	"dependencies": {
 		"bootstrap": "~3",
 		"angular": "~1.2",
