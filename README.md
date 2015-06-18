@@ -67,5 +67,4 @@ $ sh generate-ssl-certs.sh
 Windows users can follow instructions found [here](http://www.websense.com/support/article/kbarticle/How-to-use-OpenSSL-and-Microsoft-Certification-Authority)
 To generate the key and certificate and place them in the *config/sslcert* folder.
 
-### Using MEANJS generator
-You have your application running but there are a lot of stuff to understand, we recommend you'll go over the [Official Documentation](http://meanjs.org/docs.html). 
+### Using [MEANJS generator](http://meanjs.org/docs.html). 
