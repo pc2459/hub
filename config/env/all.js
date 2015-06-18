@@ -2,9 +2,9 @@
 
 module.exports = {
 	app: {
-		title: 'marketplace hub',
-		description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
-		keywords: 'MongoDB, Express, AngularJS, Node.js'
+		title: 'Marketplace Hub',
+		description: 'Hub for F2 apps',
+		keywords: 'F2, Hub'
 	},
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',
