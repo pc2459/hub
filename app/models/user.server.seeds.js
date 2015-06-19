@@ -36,7 +36,6 @@ var dummyUsers = [
 
 // Set up the permissions so that Company1 can view Company2/3,
 // Company2 can view Company3, and Company3 has no permissions.
-
 var company1Id,
 	company2Id,
 	company3Id;
@@ -69,7 +68,7 @@ async.series([
 						});
 					},
 				function(err, results){
-					if (err) { cb(err); }
+					if (err) return cb(err); 
 					cb(null, results);
 				});
 			}
