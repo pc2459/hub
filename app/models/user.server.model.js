@@ -5,7 +5,8 @@
  */
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
-	crypto = require('crypto');
+	crypto = require('crypto'),
+	randomkey = require('random-key');
 
 /**
  * A Validation function for local strategy properties
@@ -20,6 +21,17 @@ var validateLocalStrategyProperty = function(property) {
 var validateLocalStrategyPassword = function(password) {
 	return (this.provider !== 'local' || (password && password.length > 6));
 };
+
+// API Key subdocument Schema 
+
+var APIKeySchema = new Schema({
+	key: { 
+		type: String
+	},
+	referrer: {
+		type: String
+	}
+});
 
 /**
  * User Schema
@@ -53,6 +65,15 @@ var UserSchema = new Schema({
 		unique: 'testing error message',
 		required: 'Please fill in a username',
 		trim: true
+	},
+	apikeys: {
+		type: [APIKeySchema]
+	},
+	permissions: {
+		type: [{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		}]
 	},
 	password: {
 		type: String,
