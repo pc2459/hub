@@ -9,7 +9,8 @@ var _ = require('lodash'),
 	gulp = require('gulp'),
 	gulpLoadPlugins = require('gulp-load-plugins'),
 	runSequence = require('run-sequence'),
-	plugins = gulpLoadPlugins();
+	plugins = gulpLoadPlugins(),
+	nodeInspector = require('gulp-node-inspector');
 
 // Set NODE_ENV to 'test'
 gulp.task('env:test', function () {
@@ -34,6 +35,11 @@ gulp.task('nodemon', function () {
 		ext: 'js,html',
 		watch: _.union(defaultAssets.server.views, defaultAssets.server.allJS, defaultAssets.server.config)
 	});
+});
+
+gulp.task('inspect', function() {
+  gulp.src([])
+    .pipe(nodeInspector());
 });
 
 // Watch Files For Changes
@@ -167,7 +173,7 @@ gulp.task('default', function(done) {
 
 // Run the project in debug mode
 gulp.task('debug', function(done) {
-	runSequence('env:dev', 'lint', ['nodemon', 'watch'], done);
+	runSequence('env:dev', 'lint', 'inspect', ['nodemon', 'watch'], done);
 });
 
 // Run the project in production mode
