@@ -12,11 +12,8 @@ var config = require('../config'),
 	multer = require('multer'),
 	favicon = require('serve-favicon'),
 	compress = require('compression'),
-	methodOverride = require('method-override'),
-	cookieParser = require('cookie-parser'),
 	helmet = require('helmet'),
 	passport = require('passport'),
-	flash = require('connect-flash'),
 	consolidate = require('consolidate'),
 	path = require('path');
 
@@ -29,7 +26,6 @@ module.exports.initLocalVariables = function (app) {
 	app.locals.description = config.app.description;
 	app.locals.keywords = config.app.keywords;
 	app.locals.googleAnalyticsTrackingID = config.app.googleAnalyticsTrackingID;
-	app.locals.facebookAppId = config.facebook.clientID;
 	app.locals.jsFiles = config.files.client.js;
 	app.locals.cssFiles = config.files.client.css;
 
@@ -73,16 +69,10 @@ module.exports.initMiddleware = function (app) {
 		app.locals.cache = 'memory';
 	}
 
-	// Request body parsing middleware should be above methodOverride
 	app.use(bodyParser.urlencoded({
 		extended: true
 	}));
 	app.use(bodyParser.json());
-	app.use(methodOverride());
-
-	// Add the cookie parser and flash middleware
-	app.use(cookieParser());
-	app.use(flash());
 
 	// Add multipart handling middleware
 	app.use(multer({
