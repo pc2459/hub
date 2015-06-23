@@ -83,19 +83,13 @@ var UserSchema = new Schema({
 	salt: {
 		type: String
 	},
-	provider: {
-		type: String,
-		required: 'Provider is required'
-	},
-	providerData: {},
-	additionalProvidersData: {},
-	roles: {
-		type: [{
-			type: String,
-			enum: ['user', 'admin']
-		}],
-		default: ['user']
-	},
+	// roles: {
+	// 	type: [{
+	// 		type: String,
+	// 		enum: ['user', 'admin']
+	// 	}],
+	// 	default: ['user']
+	// },
 	updated: {
 		type: Date
 	},
