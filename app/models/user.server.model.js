@@ -82,6 +82,7 @@ var UserSchema = new Schema({
 	salt: {
 		type: String
 	},
+	// removing for now, but we might want it later
 	// roles: {
 	// 	type: [{
 	// 		type: String,
