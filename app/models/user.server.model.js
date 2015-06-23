@@ -83,6 +83,7 @@ var UserSchema = new Schema({
 		type: String
 	},
 	// removing for now, but we might want it later
+	//
 	// roles: {
 	// 	type: [{
 	// 		type: String,
