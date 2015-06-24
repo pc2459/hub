@@ -15,6 +15,10 @@ mongoose.connect(function (db) {
 	// Start the app by listening on <port>
 	app.listen(config.port);
 
+	// Seed the DB
+	// Get this working in mongoose config file
+	require('./modules/users/server/models/user.server.seeds.js');
+
 	// Logging initialization
 	console.log('Marketing Hub running on port ' + config.port);
 });

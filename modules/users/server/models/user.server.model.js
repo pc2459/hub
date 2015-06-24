@@ -21,6 +21,17 @@ var validateLocalStrategyPassword = function(password) {
 	return (this.provider !== 'local' || (password && password.length > 6));
 };
 
+// API Key subdocument Schema 
+
+var APIKeySchema = new Schema({
+	key: { 
+		type: String
+	},
+	referrer: {
+		type: String
+	}
+});
+
 /**
  * User Schema
  */
@@ -54,6 +65,15 @@ var UserSchema = new Schema({
 		required: 'Please fill in a username',
 		trim: true
 	},
+	apikeys: {
+		type: [APIKeySchema]
+	},
+	permissions: {
+		type: [{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		}]
+	},
 	password: {
 		type: String,
 		default: '',
@@ -66,19 +86,14 @@ var UserSchema = new Schema({
 		type: String,
 		default: 'modules/users/img/profile/default.png'
 	},
-	provider: {
-		type: String,
-		required: 'Provider is required'
-	},
-	providerData: {},
-	additionalProvidersData: {},
-	roles: {
-		type: [{
-			type: String,
-			enum: ['user', 'admin']
-		}],
-		default: ['user']
-	},
+	// removing for now, but we might want it later
+	// roles: {
+	// 	type: [{
+	// 		type: String,
+	// 		enum: ['user', 'admin']
+	// 	}],
+	// 	default: ['user']
+	// },
 	updated: {
 		type: Date
 	},
