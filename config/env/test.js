@@ -4,7 +4,7 @@ module.exports = {
 	db: 'mongodb://localhost/marketplace-hub-test',
 	port: 3001,
 	app: {
-		title: 'marketplace hub - Test Environment'
+		title: 'Marketplace Hub - Test Environment'
 	},
 	mailer: {
 		from: process.env.MAILER_FROM || 'MAILER_FROM',

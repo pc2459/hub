@@ -1,40 +1,23 @@
 'use strict';
+
 /**
  * Module dependencies.
  */
-var init = require('./config/init')(),
-	config = require('./config/config'),
-	mongoose = require('mongoose'),
-	chalk = require('chalk');
- 
-/**
- * Main application entry file.
- * Please note that the order of loading is important.
- */ 
+var config = require('./config/config'),
+	mongoose = require('./config/lib/mongoose'),
+	express = require('./config/lib/express');
 
-// Bootstrap db connection
-var db = mongoose.connect(config.db, function(err) {
-	if (err) {
-		console.error(chalk.red('Could not connect to MongoDB!'));
-		console.log(chalk.red(err));
-	}
+// Initialize mongoose
+mongoose.connect(function (db) {
+	// Initialize express
+	var app = express.init(db);
+
+	// Start the app by listening on <port>
+	app.listen(config.port);
+	// Seed the DB
+	// Get this working in mongoose config file
+	require('./modules/users/server/models/user.server.seeds.js');
+
+	// Logging initialization
+	console.log('Marketing Hub running on port ' + config.port);
 });
-
-
-// Init the express application
-var app = require('./config/express')(db);
-
-// Bootstrap passport config
-require('./config/passport')();
-
-// Seed the DB
-require('./app/models/user.server.seeds.js');
-
-// Start the app by listening on <port>
-app.listen(config.port);
-
-// Expose app
-exports = module.exports = app;
-
-// Logging initialization
-console.log('Marketplace Hub running on ' + config.port);

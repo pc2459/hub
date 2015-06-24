@@ -1,5 +1,7 @@
 FROM dockerfile/nodejs
 
+MAINTAINER Matthias Luebken, matthias@catalyst-zero.com
+
 WORKDIR /home/mean
 
 # Install Mean.JS Prerequisites

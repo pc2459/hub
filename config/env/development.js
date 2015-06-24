@@ -3,7 +3,7 @@
 module.exports = {
 	db: 'mongodb://localhost/marketplace-hub-dev',
 	app: {
-		title: 'Marketplace Hub - Dev'
+		title: 'Marketplace Hub - Development Environment'
 	},
 	mailer: {
 		from: process.env.MAILER_FROM || 'MAILER_FROM',
