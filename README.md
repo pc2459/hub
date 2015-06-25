@@ -1,6 +1,14 @@
 # Marketplace Hub
 ### "Something to do something with F2 apps"
 
+## Users
+
+Users have the same password as their username.
+
+* ```company1 - viewing access to company2, company3
+* ```company2 - viewing access to company3
+* ```company3
+
 ## Prerequisites
 Make sure you have installed all these prerequisites on your development machine. 
 
@@ -15,7 +23,7 @@ If you are developing on a Windows machine, run your command line tool with admi
 $ npm install -g bower
 ```
 
-* Grunt - You're going to use the [Gulp Task Runner](http://gulpjs.com/) to automate your development process, in order to install it make sure you've installed Node.js and npm, then install grunt globally using npm:
+* Gulp - You're going to use the [Gulp Task Runner](http://gulpjs.com/) to automate your development process, in order to install it make sure you've installed Node.js and npm, then install Gulp globally using npm:
 
 ```
 $ npm install -g gulp
@@ -30,10 +38,10 @@ $ npm install
 ```
 
 ## Running the Application
-After the install process is over, you'll be able to run your application using Grunt, just run grunt default task:
+After the install process is over, you'll be able to run your application using Gulp, just run gulp default task:
 
 ```
-$ grunt
+$ gulp
 ```
 
 The application should run on the 3000 port so in your browser just go to [http://localhost:3000](http://localhost:3000)
