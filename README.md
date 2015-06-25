@@ -5,9 +5,9 @@
 
 Users have the same password as their username.
 
-* ```company1 - viewing access to company2, company3
-* ```company2 - viewing access to company3
-* ```company3
+* ```company1``` - viewing access to company2, company3
+* ```company2``` - viewing access to company3
+* ```company3```
 
 ## Prerequisites
 Make sure you have installed all these prerequisites on your development machine. 
