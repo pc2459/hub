@@ -88,7 +88,7 @@ exports.seed = function(callback) {
 
 	async.series([
 
-		// get the mongo-generated company IDs (== the company id, for now)
+		// get the mongo-generated company IDs (== the user id, for now)
 		function(cb) {
 			User.find({}, function(err, results){
 				if (err) return cb(err);
@@ -97,11 +97,12 @@ exports.seed = function(callback) {
 					company1Id = results[0].id;
 					company2Id = results[1].id;
 					company3Id = results[2].id;
+
+					// Mock up apps and permissions
 					setDummyAppData();
+					
 					cb(null);
 				}
-
-				// If there are no users, seed the users database
 				else {
 					cb(new Error('Something has gone wrong in the seed file - Users should have seeded first.'));
 				}

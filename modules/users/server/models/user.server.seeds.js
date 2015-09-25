@@ -125,7 +125,6 @@ exports.seed = function(callback) {
 			console.log('User model: Seeded DB with ', JSON.stringify(done[0], null, '\t'), ' with permissions ', JSON.stringify(done[2], null, '\t'));
 		}
 		callback(err);
-		
 	});
 
 };
