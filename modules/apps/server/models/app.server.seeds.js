@@ -16,6 +16,8 @@ var company1Id,
 
 var setDummyAppData = function() {
 
+	console.log('companyids:', company1Id, company2Id, company3Id);
+
 	dummyApps = [
 		{
 			name: 'App 1',
@@ -118,10 +120,12 @@ exports.seed = function(callback) {
 				if(results.length < 1){
 					async.map(dummyApps, function(app, callback)
 						{
+							console.log('>>>>',app);
 							var newApp = new App(app);
 							newApp.save(function(err, savedApp) {
 								if (err) return cb(err);
-								callback(null, { 'name:': savedApp.name, 'id': savedApp._id, 'permissions': savedApp.permissions, 'private': savedApp.private });
+								console.log('saved:', savedApp);
+								callback(null, { 'name:': savedApp.name, 'id': savedApp._id, 'owner': savedApp.owner, 'permissions': savedApp.permissions, 'private': savedApp.private });
 							});
 						},
 

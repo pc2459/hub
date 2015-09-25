@@ -1,11 +1,30 @@
 'use strict';
 
 /**
- * Render the main applicaion page
+ * Module dependencies.
+ */
+var path = require('path'),
+  mongoose = require('mongoose'),
+  App = mongoose.model('App'),
+  _ = require('lodash'),
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+
+/**
+ * Render all apps
  */
 exports.renderAll = function(req, res) {
 	
-	//TODO-FO: Grab all apps and output some API version of it
+	App.find().populate('owner', 'username').exec(function(err, apps) {
+
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		}
+		else {
+			res.json(apps);
+		}
+	});
 };
 
 

@@ -1,22 +1,23 @@
 'use strict';
 
-angular.module('users').controller('AppsController', ['$http', '$location', 'Users', 'Authentication',
-	function($http, $location, Users, Authentication) {
+angular.module('apps').controller('AppsController', ['$http', '$location', 'Apps', 'Authentication',
+	function($http, $location, Apps, Authentication) {
 		
 		var vm = this;
 
 		vm.user = Authentication.user;
-
 		console.log('User:', vm.user);
+		vm.apps = [];
+		vm.renderAll = renderAll;
 
-		vm.apps = [
-			{
-				name: 'my first app'
-			},
-			{
-				name: 'another one'
-			}
-		];
+		console.log(vm.renderAll);
+		
+
+		/*jshint -W003  */
+		function renderAll() {
+			vm.apps = Apps.query();
+			console.log('finished querying');
+		}
 
 		// // Update a user profile
 		// $scope.updateUserProfile = function(isValid) {

@@ -26,14 +26,12 @@ var AppSchema = new Schema({
 		type: String
 	},
 	owner: {
-		type: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User'
-		}
+		type: Schema.ObjectId,
+		ref: 'User'
 	},
 	permissions: {
 		type: [{
-			type: mongoose.Schema.Types.ObjectId,
+			type: Schema.ObjectId,
 			ref: 'User'
 		}]
 	},
