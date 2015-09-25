@@ -14,6 +14,11 @@ module.exports.loadModels = function() {
 	config.files.server.models.forEach(function(modelPath) {
 		require(path.resolve(modelPath));
 	});
+
+	// Globbing seed files
+	config.files.server.seeds.forEach(function(modelPath) {
+		require(path.resolve(modelPath));
+	});	
 };
 
 // Initialize Mongoose
