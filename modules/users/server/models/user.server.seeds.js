@@ -53,9 +53,11 @@ exports.updatePermissions = function(company, permissions, callback)
 	return User.findOneAndUpdate(query, update, options, callbackfn);
 };
 
+exports.name = 'User';
+exports.dependencies = null;
 exports.seed = function(callback) {
 
-	async.series([
+	async.waterfall([
 
 		// Seed the database if less than 3 users are found
 		function(cb){
@@ -66,13 +68,13 @@ exports.seed = function(callback) {
 							var newUser = new User(user);
 							newUser.displayName = user.firstName + ' ' + user.lastName;
 							newUser.save(function(err, newUser) { 
-								if (err) return console.log('newusersave error', err); 
+								if (err) return cb(err);
 								callback(null, { 'username': newUser.username, 'id': newUser._id }); 
 							});
 						},
 					function(err, results){
-						if (err) { console.log('another problem'); return cb(err); } 
-						cb(null, results);
+						if (err) return cb(err);
+						cb(null, results, false);
 					});
 				}
 				else {
@@ -80,42 +82,50 @@ exports.seed = function(callback) {
 					_.each(results, function(user){
 						users.push({'username': user.username, 'id': user._id, 'permissions': user.permissions});
 					});
-					console.log('DB already seeded with ', JSON.stringify(users, null, '\t'));
+					console.log('User model: DB already seeded with ', JSON.stringify(users, null, '\t'));
+					cb(null, null, true);
 				}
 			});
 		},
 
 		// get the mongo-generated IDs (== the company id, for now)
-		function(cb) {
+		function(users, skip, cb) {
+			if (skip) {
+				return cb(null, users, skip);
+			}
 			User.find({}, function(err, results){
-				if (err) { console.log('yet another problem'); return cb(err); } 
+				if (err) return cb(err);
 				company1Id = results[0].id;
 				company2Id = results[1].id;
 				company3Id = results[2].id;
-				cb(null);
+				cb(null, users, false);
 			});
 
 		},
 
 		// set permissions
-		function(cb) {
+		function(users, skip, cb) {
+
+			if (skip) {
+				return cb(null);
+			}
 			async.parallel([
 				async.apply(exports.updatePermissions, 'company1', [company2Id, company3Id]),
 				async.apply(exports.updatePermissions, 'company2', [company3Id])
 			],
 			function(err, results){
-				if (err) { console.log('yet another problem2'); return cb(err); }  
+				if (err) return cb(err);
 				cb(null, results);
 			});
 		}
 	],
 	function(err, done){
-		if (err) console.log('Error:', err);
-		console.log('Seeded DB with ', JSON.stringify(done[0], null, '\t'), ' with permissions ', JSON.stringify(done[2], null, '\t'));
-
-		if (callback) {
-			callback(err);
+		if (err) console.log('User model: an error occurred');
+		if (done) {
+			console.log('User model: Seeded DB with ', JSON.stringify(done[0], null, '\t'), ' with permissions ', JSON.stringify(done[2], null, '\t'));
 		}
+		callback(err);
+		
 	});
 
 };

@@ -80,79 +80,73 @@ var setDummyAppData = function() {
 	];
 };
 
-async.series([
+exports.name = 'App';
 
-	// get the mongo-generated company IDs (== the company id, for now)
-	function(cb) {
-		User.find({}, function(err, results){
-			if (err) return cb(err);
+exports.dependencies = ['User'];
 
-			if (results.length >= 3) {
-				company1Id = results[0].id;
-				company2Id = results[1].id;
-				company3Id = results[2].id;
-				cb(null);
-			}
+exports.seed = function(callback) {
 
-			else {
-				async.series([
-					function(cb) {
-						require(path.resolve('./modules/users/server/models/user.server.seeds')).seed(cb);
-					},
+	async.series([
 
-					function(cb) {
-						User.find({}, function(err, results) {
-							if (err) { console.log('Problem finding users'); return cb(err); }
-							company1Id = results[0].id;
-							company2Id = results[1].id;
-							company3Id = results[2].id;
-							cb(null);
-						});
-					}
-				], function(err, results) {
-					if (err) return cb(err);
+		// get the mongo-generated company IDs (== the company id, for now)
+		function(cb) {
+			User.find({}, function(err, results){
+				if (err) return cb(err);
+
+				if (results.length >= 3) {
+					company1Id = results[0].id;
+					company2Id = results[1].id;
+					company3Id = results[2].id;
+					setDummyAppData();
 					cb(null);
-				});
-			}
-		});
-	},
+				}
 
-	// Seed the database if no apps are found
-	function(cb){
-		App.find({}, function(err, results){
+				// If there are no users, seed the users database
+				else {
+					cb(new Error('Something has gone wrong in the seed file - Users should have seeded first.'));
+				}
+			});
+		},
 
-			if (err) return cb(err);
+		// Seed the database if no apps are found
+		function(cb){
+			App.find({}, function(err, results){
 
-			if(results.length < 1){
+				if (err) return cb(err);
 
-				setDummyAppData();
+				if(results.length < 1){
+					async.map(dummyApps, function(app, callback)
+						{
+							var newApp = new App(app);
+							newApp.save(function(err, savedApp) {
+								if (err) return cb(err);
+								callback(null, { 'name:': savedApp.name, 'id': savedApp._id, 'permissions': savedApp.permissions, 'private': savedApp.private });
+							});
+						},
 
-				async.map(dummyApps, function(app, callback)
-					{
-						var newApp = new App(app);
-						newApp.save(function(err, savedApp) {
-							if (err) return cb(err);
-							callback(null, { 'new app:': savedApp.name, 'id': savedApp._id, 'permissions': savedApp.permissions, 'private': savedApp.private });
-						});
-					},
+					function(err, results){
+						if (err) return cb(err);
+						cb(null, results);
+					});
+				}
+				else {
+					var apps = [];
+					_.each(results, function(app){
+						apps.push({'name': app.name, 'id': app._id, 'permissions': app.permissions, 'private': app.private});
+					});
+					console.log('App model: DB already seeded with ', JSON.stringify(apps, null, '\t'));
+					cb(null);
+				}
+			});
+		}
+	],
+	function(err, done){
+		if (err) console.log('Error:', err);
+		if (done.length >= 2 && done[1]) {
+			console.log('App model: Seeded DB with ', JSON.stringify(done, null, '\t'));
+		}
+		callback(err);
+	});
 
-				function(err, results){
-					if (err) return cb(err);
-					cb(null, results);
-				});
-			}
-			else {
-				var apps = [];
-				_.each(results, function(app){
-					apps.push({'username': app.username, 'id': app._id, 'permissions': app.permissions});
-				});
-				console.log('App model: DB already seeded with ', JSON.stringify(apps, null, '\t'));
-			}
-		});
-	}
-],
-function(err, done){
-	if (err) console.log('Error:', err);
-	console.log('App model: Seeded DB with ', JSON.stringify(done, null, '\t'));
-});
+};
 
