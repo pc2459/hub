@@ -12,7 +12,10 @@ var path = require('path'),
 /**
  * Render all apps
  */
-exports.renderAll = function(req, res) {
+exports.renderAll = function(req, res) { 
+
+  var user = req.user;
+  console.log('<<<<<?', user);
 	
 	App.find().populate('owner', 'username').exec(function(err, apps) {
 

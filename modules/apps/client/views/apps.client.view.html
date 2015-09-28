@@ -1,14 +1,15 @@
-<section data-ng-controller="AppsController as apps" ng-init="renderAll()">
+<section data-ng-controller="AppsController as apps" ng-init="apps.renderAll()">
 	<div class="page-header">
 		<h1>Apps</h1>
 	</div>
 	<div class="row">
-		APPS WILL GO HERE
-
 		<ul>
 			<li ng-repeat="app in apps.apps">
 				{{app.name}}
 			</li>
 		</ul>
+	
+		<div class="no-data" ng-hide="!app.apps.length">No F2 apps available.</div>
+	
 	</div>
 </section>

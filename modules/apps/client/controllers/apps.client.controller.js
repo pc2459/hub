@@ -10,12 +10,11 @@ angular.module('apps').controller('AppsController', ['$http', '$location', 'Apps
 		vm.apps = [];
 		vm.renderAll = renderAll;
 
-		console.log(vm.renderAll);
-		
-
 		/*jshint -W003  */
 		function renderAll() {
+			console.log('rendering all');
 			vm.apps = Apps.query();
+			console.log('>>>>', vm.apps);
 			console.log('finished querying');
 		}
 

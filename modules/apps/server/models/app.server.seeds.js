@@ -23,27 +23,27 @@ var setDummyAppData = function() {
 			name: 'App 1',
 			appId: 'some_app_id1',
 			url: 'localhost/someurl',
-			owner: company1Id
+			owner: company1Id,
+			public: false
 		},
 		{
 			name: 'App 2',
 			appId: 'some_app_id2',
 			url: 'localhost/someurl',
-			owner: company1Id,
-			private: true
+			owner: company1Id
 		},
 		{
 			name: 'App 3',
 			appId: 'some_app_id3',
 			url: 'localhost/someurl',
-			owner: company1Id,
-			private: true
+			owner: company1Id
 		},
 		{
 			name: 'App 4',
 			appId: 'some_app_id4',
 			url: 'localhost/someurl',
 			owner: company2Id,
+			public: false
 		},
 		{
 			name: 'App 5',
@@ -56,14 +56,14 @@ var setDummyAppData = function() {
 			name: 'App 6',
 			appId: 'some_app_id6',
 			url: 'localhost/someurl',
-			owner: company2Id,
-			private: true
+			owner: company2Id
 		},
 		{
 			name: 'App 7',
 			appId: 'some_app_id7',
 			url: 'localhost/someurl',
-			owner: company3Id
+			owner: company3Id,
+			public: false
 		},
 		{
 			name: 'App 8',
@@ -76,8 +76,7 @@ var setDummyAppData = function() {
 			name: 'App 9',
 			appId: 'some_app_id9',
 			url: 'localhost/someurl',
-			owner: company3Id,
-			private: true
+			owner: company3Id
 		}
 	];
 };
@@ -125,7 +124,7 @@ exports.seed = function(callback) {
 							newApp.save(function(err, savedApp) {
 								if (err) return cb(err);
 								console.log('saved:', savedApp);
-								callback(null, { 'name:': savedApp.name, 'id': savedApp._id, 'owner': savedApp.owner, 'permissions': savedApp.permissions, 'private': savedApp.private });
+								callback(null, { 'name:': savedApp.name, 'id': savedApp._id, 'owner': savedApp.owner, 'permissions': savedApp.permissions, 'public': savedApp.public });
 							});
 						},
 
@@ -137,7 +136,7 @@ exports.seed = function(callback) {
 				else {
 					var apps = [];
 					_.each(results, function(app){
-						apps.push({'name': app.name, 'id': app._id, 'permissions': app.permissions, 'private': app.private});
+						apps.push({'name': app.name, 'id': app._id, 'permissions': app.permissions, 'public': app.public});
 					});
 					console.log('App model: DB already seeded with ', JSON.stringify(apps, null, '\t'));
 					cb(null);

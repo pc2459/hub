@@ -35,9 +35,9 @@ var AppSchema = new Schema({
 			ref: 'User'
 		}]
 	},
-	private: {
+	public: {
 		type: Boolean,
-		default: false
+		default: true
 	},
 	updated: {
 		type: Date
@@ -46,6 +46,17 @@ var AppSchema = new Schema({
 		type: Date,
 		default: Date.now
 	}
+});
+
+/**
+ * Hook a pre save method to set public flag
+ */
+AppSchema.pre('save', function(next) {
+	if (this.permissions.length > 0) {
+		this.public = false;
+	}
+
+	next();
 });
 
 mongoose.model('App', AppSchema);
