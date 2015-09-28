@@ -15,18 +15,33 @@ var path = require('path'),
 exports.renderAll = function(req, res) { 
 
   var user = req.user;
-  console.log('<<<<<?', user);
-	
-	App.find().populate('owner', 'username').exec(function(err, apps) {
 
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		}
-		else {
-			res.json(apps);
-		}
+  if (!user) {
+    user = {};
+    user._id = null;
+  }
+	
+	App
+    .find({ 
+      $or: [
+        {'public': true},
+        {'permissions': user._id},
+        {'owner': user._id}     
+      ]
+    })
+    .populate('owner', 'username')
+    .exec(function(err, apps) {
+
+      console.log('<<<<', apps);
+
+  		if (err) {
+  			return res.status(400).send({
+  				message: errorHandler.getErrorMessage(err)
+  			});
+  		}
+  		else {
+  			res.json(apps);
+  		}
 	});
 };
 

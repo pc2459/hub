@@ -16,8 +16,6 @@ var company1Id,
 
 var setDummyAppData = function() {
 
-	console.log('companyids:', company1Id, company2Id, company3Id);
-
 	dummyApps = [
 		{
 			name: 'App 1',
